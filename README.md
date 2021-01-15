@@ -40,9 +40,9 @@ Users can find the  source codes in the folders `src`.
 
 where parameters in [ ] are optional. 
 
-`--path_dataset`: Specify the path to the dataset. We let this parameter in order to apply the same work on other dataset.
+`--path_dataset <String>`: Specify the path to the dataset. We let this parameter in order to apply the same work on other dataset.
 
-`--path_write_data`: Specify the path to the directory where the user wants to save all the intermediate results. *Default value: /dlabdata1/youtube_large/olam/data/test/*
+`--path_write_data <String>`: Specify the path to the directory where the user wants to save all the intermediate results. *Default value: /dlabdata1/youtube_large/olam/data/test/*
 
 `--n_min_sub <int>`: Specify the threshold for the minimum number of subscrbers for relevant channels. *Default value: 100000*
 
@@ -142,29 +142,29 @@ This will generate a line plot if `--tune_alpha_beta` is not used and a heat map
 This will generate a line plot if `--tune` is not used and a heat map for the opposite case, where the figures will represent the accuracy score of the classifier for the selected models.
 
 
-`--path_dataset`: Specify the path to the dataset. Should be the same dataset that is used in step 1. 
+`--path_dataset <String>`: Specify the path to the dataset. Should be the same dataset that is used in step 1. 
 
-`--path_write_data`: Specify the path to the directory where the user wants to save all the intermediate results. Should be the same `path_write_data` that is used in step 1. *Default value: /dlabdata1/youtube_large/olam/data/test/*
+`--path_write_data <String>`: Specify the path to the directory where the user wants to save all the intermediate results. Should be the same `path_write_data` that is used in step 1. *Default value: /dlabdata1/youtube_large/olam/data/test/*
 
-`--n_min_sub_classifier`: Specify the threshold for the minimum number of subscrbers for relevant channels of videos in the classification task. *Default value: None*
+`--n_min_sub_classifier <int>`: Specify the threshold for the minimum number of subscrbers for relevant channels of videos in the classification task. *Default value: None*
 
-`--n_min_views_classifier`: Specify the threshold for the minimum number of views for relevant videos in the classification task. *Default value: 10000*
+`--n_min_views_classifier <int>`: Specify the threshold for the minimum number of views for relevant videos in the classification task. *Default value: 10000*
 
-`--n_top_vid_per_combination`: Specify the threshold for selecting the number videos with the most views for each combination of `category`, `uploaded_year` and `channel_id` for topic modelling. Must be the same as `n_top_vid_per_combination` used in step 1. *Default value: 20*
+`--n_top_vid_per_combination <int>`: Specify the threshold for selecting the number videos with the most views for each combination of `category`, `uploaded_year` and `channel_id` for topic modelling. Must be the same as `n_top_vid_per_combination` used in step 1. *Default value: 20*
 
-`--min_n_topic`: Specify the minimum number of topics for the LDA model. One classifier per model will be created and accuracies for each classifier are compared. *Default value: None*
+`--min_n_topic <int>`: Specify the minimum number of topics for the LDA model. One classifier per model will be created and accuracies for each classifier are compared. *Default value: None*
 
-`--max_n_topic`: Specify the maximum number of topics for the LDA model. One classifier per model will be created and accuracies for each classifier are compared. *Default value: None*
+`--max_n_topic <int>`: Specify the maximum number of topics for the LDA model. One classifier per model will be created and accuracies for each classifier are compared. *Default value: None*
 
 `--tune`: Boolean that indicate that tuning the document concentration and topic concentration will be performed. Required n_topic_tune. *Default value: False*
 
-`--n_topic_tune`: Specify the number of topics on which document concentration and topic concentration will be tuned. *Default value: None*
+`--n_topic_tune <int>`: Specify the number of topics on which document concentration and topic concentration will be tuned. *Default value: None*
 
-`--n_jobs`: Specify the number of jobs for transforming the data for the classifier from the LDA model. *Default value: 4*
+`--n_jobs <int>`: Specify the number of jobs for transforming the data for the classifier from the LDA model. *Default value: 4*
 
-`--executor_mem`: Specify the memory in g for each executor. *Default value: 4*
+`--executor_mem <int>`: Specify the memory in g for each executor. *Default value: 4*
 
-`--driver_mem`: Specify the memory in g for the driver. *Default value: 64*
+`--driver_mem <int>`: Specify the memory in g for the driver. *Default value: 64*
 
 
 ## Author
