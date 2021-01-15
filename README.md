@@ -1,4 +1,5 @@
 
+
 # Characterizing the User Interests on YouTube
 
 Social media has become a part to our daily routine, through multiple social platforms. Thiswork focuses on the YouTube data by creating an embedding space at the video level.  We usethe Latent Dirichlet Allocation (LDA) algorithm to perform topic modelling, which resultedto  be  much  more  sensitive  to  the  input  data  than  to  the  model  parameters.   Furthermore,we  implemented  different  methods  to  evaluate  and  interpret  the  results.   Finally,  a  humanevaluation task is performed on our optimal models in order to verify the performance of ourevaluation metrics.  We hope that our work can help future projects which focus on performingembeddings on very large dataset.
@@ -40,25 +41,25 @@ Users can find the  source codes in the folders `src`.
 
 where parameters in [ ] are optional. 
 
-`--path_dataset <String>`: Specify the path to the dataset. We let this parameter in order to apply the same work on other dataset.
+- `--path_dataset <String>`: Specify the path to the dataset. We let this parameter in order to apply the same work on other dataset.
 
-`--path_write_data <String>`: Specify the path to the directory where the user wants to save all the intermediate results. *Default value: /dlabdata1/youtube_large/olam/data/test/*
+- `--path_write_data <String>`: Specify the path to the directory where the user wants to save all the intermediate results. *Default value: /dlabdata1/youtube_large/olam/data/test/*
 
-`--n_min_sub <int>`: Specify the threshold for the minimum number of subscrbers for relevant channels. *Default value: 100000*
+- `--n_min_sub <int>`: Specify the threshold for the minimum number of subscrbers for relevant channels. *Default value: 100000*
 
-`--n_min_views <int>`: Specify the threshold for the minimum number of views for relevant videos. *Default value: 10000*
+- `--n_min_views <int>`: Specify the threshold for the minimum number of views for relevant videos. *Default value: 10000*
 
-`--use_bigram`: Specify if the user want to generate bi-grams for the vocabulary. 
+- `--use_bigram`: Specify if the user want to generate bi-grams for the vocabulary. 
 
-`--min_vid_per_token <int>`: Specify the threshold *t* for tokens that appear in at least *t* videos to be considered as relevant tokens. *Default value: 100*
+- `--min_vid_per_token <int>`: Specify the threshold *t* for tokens that appear in at least *t* videos to be considered as relevant tokens. *Default value: 100*
 
-`--n_top_vid_per_combination <int>`: Specify the threshold for selecting the number videos with the most views for each combination of `category`, `uploaded_year` and `channel_id` for topic modelling. *Default value: 20*
+- `--n_top_vid_per_combination <int>`: Specify the threshold for selecting the number videos with the most views for each combination of `category`, `uploaded_year` and `channel_id` for topic modelling. *Default value: 20*
 
-`--n_jobs <int>`: Specify the number of jobs for creating the data for topic modelling. *Default value: 4*
+- `--n_jobs <int>`: Specify the number of jobs for creating the data for topic modelling. *Default value: 4*
 
-`--executor_mem <int>`: Specify the memory in g for each executor. *Default value: 8*
+- `--executor_mem <int>`: Specify the memory in g for each executor. *Default value: 8*
 
-`--driver_mem <int>`: Specify the memory in g for the driver. *Default value: 64*
+- `--driver_mem <int>`: Specify the memory in g for the driver. *Default value: 64*
 
 **Examples:**
 
@@ -88,27 +89,29 @@ First of all, the user need to store the data in the Hadoop cluster. Then, the u
 
 **Now, the user can train the LDA models by using the following command:**
 
-	$ python src/train_LDA.py [--min_n_topic <int>] [--max_n_topic <int>] [--tune] [--n_topic_tune <int>] [--path_data <String>] [--n_iter <int>]
+	$ spark-submit --master yarn --deploy-mode cluster --num-executors 47 --executor-cores 4 --driver-memory 64g --executor-memory 4g src/train_LDA.py [--min_n_topic <int>] [--max_n_topic <int>] [--tune] [--n_topic_tune <int>] [--path_data <String>] [--n_iter <int>]
 
 The output files are saved in the `--path_data` directory.
 
-`--min_n_topic <int>`: Specify the minimum number of topics for the LDA model. Multiples models will be computer from `the min_n_topic` `to max_n_topic`, with a step of 5. *Default value: None*
+- `--min_n_topic <int>`: Specify the minimum number of topics for the LDA model. Multiples models will be computer from `the min_n_topic` `to max_n_topic`, with a step of 5. *Default value: None*
 
-`--max_n_topic <int>`: Specify the maximum number of topics for the LDA model. Multiples models will be computer from `the min_n_topic` `to max_n_topic`, with a step of 5. *Default value: None*
+- `--max_n_topic <int>`: Specify the maximum number of topics for the LDA model. Multiples models will be computer from `the min_n_topic` `to max_n_topic`, with a step of 5. *Default value: None*
 
-`--tune`:  Boolean that indicate that computing models with specific values for document concentration and topic concentration will be performed. Required n_topic_tune. *Default value: False*
+- `--tune`:  Boolean that indicate that computing models with specific values for document concentration and topic concentration will be performed. Required n_topic_tune. *Default value: False*
 
-`--n_topic_tune <int>`: Specify the number of topics of the models on which pecific values for document concentration and topic concentration will be tuned. *Default value: None*
+- `--n_topic_tune <int>`: Specify the number of topics of the models on which pecific values for document concentration and topic concentration will be tuned. *Default value: None*
 
-`--path_data <String>`: Specify the path of the directory where the results will be saved. *Default value: /user/olam/test/*
+- `--path_data <String>`: Specify the path of the directory where the results will be saved. *Default value: /user/olam/test/*
 
-`--n_iter <int>`: Specify the number of iterations for the LDA algorithm. *Default value: 500*
+- `--n_iter <int>`: Specify the number of iterations for the LDA algorithm. *Default value: 500*
 
 **Example:**
 
-	$ python python train_LDA.py --min_n_topic 30 --max_n_topic 45
+	$ spark-submit --master yarn --deploy-mode cluster --num-executors 47 --executor-cores 4 --driver-memory 64g --executor-memory 4g train_LDA.py --min_n_topic 30 --max_n_topic 45
 
 The above commands will compute the LDA models with 30, 35, 40 and 45 topics. All the results will be stored in the default `path_data` 
+
+An important note is that the parameters of the `spark-submit` command are optimal to our task. The user has to make sure that if he runs the script on other data, he may need to change the `num-executors`, `executor-cores`, `driver-memory` and `executor-memory` parameters.
 
 Once the run is done, make sure to copy the resulted files from Hadoop to the local directory. In particular, the files in `path_hdfs/describe_topics/` should be in `path_dir/describe_topics/` where `path_dir` should be the same as `path_write_data` from step 1. This should be done for the following directories : `describe_topics`, `topics_doc_matrix` `models`.
 
@@ -121,17 +124,17 @@ Once the run is done, make sure to copy the resulted files from Hadoop to the lo
 
 This will generate a line plot if `--tune_alpha_beta` is not used and a heat map for the opposite case, where the figures will represent the *c_v* and  *u_mass* coherence score for the selected models.
 
-`--min_n_topic <int>`: Specify the number of topics from which the topic coherences will be computed. Multiples models will be computer from `the min_n_topic` `to max_n_topic`, with a step of 5. *Default value: None*
+- `--min_n_topic <int>`: Specify the number of topics from which the topic coherences will be computed. Multiples models will be computer from `the min_n_topic` `to max_n_topic`, with a step of 5. *Default value: None*
 
-`--max_n_topic <int>`: Specify the number of topics until which the topic coherences will be computed. Multiples models will be computer from `the min_n_topic` `to max_n_topic`, with a step of 5. *Default value: None*
+- `--max_n_topic <int>`: Specify the number of topics until which the topic coherences will be computed. Multiples models will be computer from `the min_n_topic` `to max_n_topic`, with a step of 5. *Default value: None*
 
-`--tune_alpha_beta`:  Boolean that indicate that computing coherence scores for models with specific values for document concentration and topic concentration will be performed. Required n_topic_tune. *Default value: False*
+- `--tune_alpha_beta`:  Boolean that indicate that computing coherence scores for models with specific values for document concentration and topic concentration will be performed. Required n_topic_tune. *Default value: False*
 
-`--n_topic_tune <int>`: Specify the number of topics of the models where the coherence scores will be computed on specific values for document concentration and topic concentration. *Default value: None*
+- `--n_topic_tune <int>`: Specify the number of topics of the models where the coherence scores will be computed on specific values for document concentration and topic concentration. *Default value: None*
 
-`--path_data <String>`: Specify the path of the directory where input files can be found. It should be the same as `path_write_data` from step 1. *Default value: /dlabdata1/youtube_large/olam/data/test/*
+- `--path_data <String>`: Specify the path of the directory where input files can be found. It should be the same as `path_write_data` from step 1. *Default value: /dlabdata1/youtube_large/olam/data/test/*
 
-`--n_iter <int>`: Specify the number of iterations for the LDA algorithm. *Default value: 500*
+- `--n_iter <int>`: Specify the number of iterations for the LDA algorithm. *Default value: 500*
 
 ### Step 4: Build a classifier to check the performance of the topic models
 
@@ -142,29 +145,38 @@ This will generate a line plot if `--tune_alpha_beta` is not used and a heat map
 This will generate a line plot if `--tune` is not used and a heat map for the opposite case, where the figures will represent the accuracy score of the classifier for the selected models.
 
 
-`--path_dataset <String>`: Specify the path to the dataset. Should be the same dataset that is used in step 1. 
+- `--path_dataset <String>`: Specify the path to the dataset. Should be the same dataset that is used in step 1. 
 
-`--path_write_data <String>`: Specify the path to the directory where the user wants to save all the intermediate results. Should be the same `path_write_data` that is used in step 1. *Default value: /dlabdata1/youtube_large/olam/data/test/*
+- `--path_write_data <String>`: Specify the path to the directory where the user wants to save all the intermediate results. Should be the same `path_write_data` that is used in step 1. *Default value: /dlabdata1/youtube_large/olam/data/test/*
 
-`--n_min_sub_classifier <int>`: Specify the threshold for the minimum number of subscrbers for relevant channels of videos in the classification task. *Default value: None*
+- `--n_min_sub_classifier <int>`: Specify the threshold for the minimum number of subscrbers for relevant channels of videos in the classification task. *Default value: None*
 
-`--n_min_views_classifier <int>`: Specify the threshold for the minimum number of views for relevant videos in the classification task. *Default value: 10000*
+- `--n_min_views_classifier <int>`: Specify the threshold for the minimum number of views for relevant videos in the classification task. *Default value: 10000*
 
-`--n_top_vid_per_combination <int>`: Specify the threshold for selecting the number videos with the most views for each combination of `category`, `uploaded_year` and `channel_id` for topic modelling. Must be the same as `n_top_vid_per_combination` used in step 1. *Default value: 20*
+- `--n_top_vid_per_combination <int>`: Specify the threshold for selecting the number videos with the most views for each combination of `category`, `uploaded_year` and `channel_id` for topic modelling. Must be the same as `n_top_vid_per_combination` used in step 1. *Default value: 20*
 
-`--min_n_topic <int>`: Specify the minimum number of topics for the LDA model. One classifier per model will be created and accuracies for each classifier are compared. *Default value: None*
+- `--min_n_topic <int>`: Specify the minimum number of topics for the LDA model. One classifier per model will be created and accuracies for each classifier are compared. *Default value: None*
 
-`--max_n_topic <int>`: Specify the maximum number of topics for the LDA model. One classifier per model will be created and accuracies for each classifier are compared. *Default value: None*
+- `--max_n_topic <int>`: Specify the maximum number of topics for the LDA model. One classifier per model will be created and accuracies for each classifier are compared. *Default value: None*
 
-`--tune`: Boolean that indicate that tuning the document concentration and topic concentration will be performed. Required n_topic_tune. *Default value: False*
+- `--tune`: Boolean that indicate that tuning the document concentration and topic concentration will be performed. Required n_topic_tune. *Default value: False*
 
-`--n_topic_tune <int>`: Specify the number of topics on which document concentration and topic concentration will be tuned. *Default value: None*
+- `--n_topic_tune <int>`: Specify the number of topics on which document concentration and topic concentration will be tuned. *Default value: None*
 
-`--n_jobs <int>`: Specify the number of jobs for transforming the data for the classifier from the LDA model. *Default value: 4*
+- `--n_jobs <int>`: Specify the number of jobs for transforming the data for the classifier from the LDA model. *Default value: 4*
 
-`--executor_mem <int>`: Specify the memory in g for each executor. *Default value: 4*
+- `--executor_mem <int>`: Specify the memory in g for each executor. *Default value: 4*
 
-`--driver_mem <int>`: Specify the memory in g for the driver. *Default value: 64*
+- `--driver_mem <int>`: Specify the memory in g for the driver. *Default value: 64*
+
+### Step 5: Get the visualisation of the topic models
+
+In order to get a nice representation of the LDA model, the user can run the following notebook : `notebook/visualisation_lda.ipynb`
+
+The visualisation of our model with 55 topics can be found [here](https://htmlpreview.github.io/?https://github.com/olivierlam97/EPFL-SemesterProject-YouTube/blob/master/html/model55.html)
+
+The visualisation of our model with 110 topics can be found [here](https://htmlpreview.github.io/?https://github.com/olivierlam97/EPFL-SemesterProject-YouTube/blob/master/html/model110.html)
+
 
 
 ## Author
