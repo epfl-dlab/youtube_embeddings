@@ -87,7 +87,7 @@ First of all, the user need to store the data in the Hadoop cluster. Then, the u
 	$ hdfs dfs -get hdfs_file path_dir ### Copy the file in the hadoop directory to `path_file`
 
 
-**Now, the user can train the LDA models by using the following command:**
+**Now, the user can train the LDA models by using the following command in the hadoop cluster:**
 
 	$ spark-submit --master yarn --deploy-mode cluster --num-executors 47 --executor-cores 4 --driver-memory 64g --executor-memory 4g src/train_LDA.py [--min_n_topic <int>] [--max_n_topic <int>] [--tune] [--n_topic_tune <int>] [--path_data <String>] [--n_iter <int>]
 
