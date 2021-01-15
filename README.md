@@ -1,7 +1,7 @@
 
 # Characterizing the User Interests on YouTube
 
-
+Social media has become a part to our daily routine, through multiple social platforms. Thiswork focuses on the YouTube data by creating an embedding space at the video level.  We usethe Latent Dirichlet Allocation (LDA) algorithm to perform topic modelling, which resultedto  be  much  more  sensitive  to  the  input  data  than  to  the  model  parameters.   Furthermore,we  implemented  different  methods  to  evaluate  and  interpret  the  results.   Finally,  a  humanevaluation task is performed on our optimal models in order to verify the performance of ourevaluation metrics.  We hope that our work can help future projects which focus on performingembeddings on very large dataset.
 
 Table of Contents
 =================
