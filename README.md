@@ -33,7 +33,7 @@ The table below summaries the dataset used during the project.
 
 ### Step 1: Generate the data for topic modelling
 
-Users can find the  source codes in the folders `src`. 
+Users can find the  source codes in the folder `src`. 
 
 **Now, we can generate the correct data for topic modelling by executing:**
 
